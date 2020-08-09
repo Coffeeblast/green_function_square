@@ -7,14 +7,24 @@ from tkinter import messagebox
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 
-def green(x,y,x0,y0,N):
-    result=0.0
-    for i in range(N):
-        alpha=(i+1)*np.pi
-        for j in range(N):
-            beta=(j+1)*np.pi
-            lam=-(alpha**2+beta**2)
-            result += (4/lam)*np.sin(alpha*x0)*np.sin(alpha*x)*np.sin(beta*y0)*np.sin(beta*y)
+
+def green(x, y, x0, y0, n):
+    """
+    Calculates approximation of green function of Laplacian on a square <0, 1> x <0, 1>
+    :param x: x coordinate of the point, where calculation is taken
+    :param y: y coordinate of the point, where calculation is taken
+    :param x0: x coordinate of the point, where delta function is singular
+    :param y0: y coordinate of the point, where delta function is singular
+    :param n: integer, at which the Fourier series is cut off
+    :return: value of the Green function
+    """
+    result = 0.0
+    for i in range(n):
+        alpha = (i + 1) * np.pi
+        for j in range(n):
+            beta = (j + 1) * np.pi
+            lam = -(alpha**2 + beta**2)
+            result += (4 / lam) * np.sin(alpha * x0) * np.sin(alpha * x) * np.sin(beta * y0) * np.sin(beta * y)
     return result
 
 class App():
