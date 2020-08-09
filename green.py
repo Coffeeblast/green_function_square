@@ -42,7 +42,7 @@ class App:
         self.create_ui()
 
         self.ax = Axes3D(self.fig)
-        self.PlotGraph()
+        self.plot_graph()
 
     def create_ui(self):
         root = tk.Tk()
@@ -60,7 +60,7 @@ class App:
 
         # create labels
         self.n_text = tk.StringVar()
-        self.n_text.set(f"N = {self.n}")
+        self.n_text.set(f"n = {self.n}")
         lbl_n = tk.Label(fr_display, textvariable=self.n_text)
         lbl_n.pack(side=tk.TOP)
 
@@ -79,8 +79,8 @@ class App:
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
         # buttons for add / subtract N
-        button_add = tk.Button(master=fr_buttons, text="N --> N+1", command=self.AddN)
-        button_sub = tk.Button(master=fr_buttons, text="N --> N-1", command=self.SubN)
+        button_add = tk.Button(master=fr_buttons, text="n --> n + 1", command=self.add_n)
+        button_sub = tk.Button(master=fr_buttons, text="n --> n - 1", command=self.sub_n)
         button_add.pack(side=tk.TOP, expand=1)
         button_sub.pack(side=tk.TOP, expand=1)
 
@@ -88,7 +88,7 @@ class App:
         fr_coords_x = tk.Frame(master=fr_buttons)
         fr_coords_x.pack(side=tk.TOP)
 
-        lbl_x0 = tk.Label(master=fr_coords_x, text="x_0: ")
+        lbl_x0 = tk.Label(master=fr_coords_x, text="x0: ")
         self.entry_x0 = tk.Entry(master=fr_coords_x)
         lbl_x0.pack(side=tk.LEFT)
         self.entry_x0.pack(side=tk.RIGHT)
@@ -96,15 +96,15 @@ class App:
         fr_coords_y = tk.Frame(master=fr_buttons)
         fr_coords_y.pack(side=tk.TOP)
 
-        lbl_y0 = tk.Label(master=fr_coords_y, text="y_0: ")
+        lbl_y0 = tk.Label(master=fr_coords_y, text="y0: ")
         self.entry_y0 = tk.Entry(master=fr_coords_y)
         lbl_y0.pack(side=tk.LEFT)
         self.entry_y0.pack(side=tk.RIGHT)
 
-        btn_set = tk.Button(master=fr_buttons, text=r"Set $(x0,y0)$", command=self.Set)
+        btn_set = tk.Button(master=fr_buttons, text="Set (x0,y0)", command=self.set_pos)
         btn_set.pack(side=tk.BOTTOM, expand=1)
 
-    def PlotGraph(self):
+    def plot_graph(self):
         self.ax.cla()
         green_fun = green(self.X, self.Y, self.x0, self.y0, self.n)
         self.ax.plot_surface(self.X, self.Y, green_fun)
@@ -119,38 +119,36 @@ class App:
         self.ax.set_xlabel("x")
         self.ax.set_ylabel("y")
         self.ax.set_zlabel("z")
-        self.ax.set_title("N = " + str(self.n))
+        self.ax.set_title(f"n = {self.n}")
         self.canvas.draw()
 
-        self.n_text.set("N = " + str(self.n))
-        self.pos_text.set("(x_0,y_0) = " + "(" + str(self.x0) + "," + str(self.y0) + ")")
+        self.n_text.set(f"n = {self.n}")
+        self.pos_text.set(f"(x0,y0) = ({self.x0}, {self.y0})")
 
-    def AddN(self):
+    def add_n(self):
         if self.n <= 200:
             self.n += 1
-            print('N=', self.n)
-            self.PlotGraph()
+            self.plot_graph()
 
-    def SubN(self):
+    def sub_n(self):
         if self.n >= 2:
             self.n -= 1
-            print('N=', self.n)
-            self.PlotGraph()
+            self.plot_graph()
 
-    def Set(self):
+    def set_pos(self):
         try:
             x0 = float(self.entry_x0.get())
             y0 = float(self.entry_y0.get())
             self.x0, self.y0 = float(x0), float(y0)
-            self.pos_text.set("(x_0,y_0) = " + "(" + str(self.x0) + "," + str(self.y0) + ")")
-            self.PlotGraph()
+            self.pos_text.set(f"(x0,y0) = ({self.x0}, {self.y0})")
+            self.plot_graph()
         except ValueError:
-            messagebox.showinfo("Error", "Enter x_0, and y_0, that are numbers!")
+            messagebox.showinfo("Error", "Enter x0, and y0, that are numbers!")
 
 
 def main():
     myApp = App()
     tk.mainloop()
 
-
-main()
+if __name__ == '__main__':
+    main()
