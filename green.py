@@ -5,8 +5,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import tkinter as tk
 from tkinter import messagebox
 
-from matplotlib.backends.backend_tkagg import (
-    FigureCanvasTkAgg, NavigationToolbar2Tk)
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 
 def green(x,y,x0,y0,N):
     result=0.0
